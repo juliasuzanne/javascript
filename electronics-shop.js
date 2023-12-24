@@ -10,7 +10,10 @@ function getMoneySpent(keyboards, drives, b) {
   totals = totals.sort(function (a, b) {
     return b - a;
   });
-  console.log(totals[0]);
+  if (totals.length === 0) {
+    totals[0] = -1;
+  }
+  return totals[0];
 }
 
-getMoneySpent([3, 1], [5, 2, 8], 10);
+console.log(getMoneySpent([4], [5], 5));
