@@ -1,5 +1,27 @@
 function climbingLeaderboard(ranked, player) {
-  for (let i = 0; i < player.length; i++) {}
+  ranked = removeDuplicates(ranked);
+  console.log(ranked);
+  let rankPos = [];
+  player.forEach((score) => {
+    rankPos.push(getScoreIndex(score, ranked));
+  });
+
+  return rankPos;
 }
 
-console.log(climbingLeaderboard([100, 90, 90, 80, 75, 60], [50, 65, 77, 90, 102]));
+function getScoreIndex(score, ranked) {
+  for (let i = 0; i < ranked.length; i++) {
+    if (ranked[i] <= score) {
+      console.log(score);
+      return i + 1;
+    } else if (ranked[i] > score && i === ranked.length - 1) {
+      console.log(score);
+      return ranked.length + 1;
+    }
+  }
+}
+function removeDuplicates(data) {
+  return data.filter((value, index) => data.indexOf(value) === index);
+}
+
+console.log(climbingLeaderboard([100, 100, 50, 40, 40, 20, 10], [5, 25, 50, 120]));
