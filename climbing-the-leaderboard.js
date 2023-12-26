@@ -2,55 +2,55 @@ function climbingLeaderboard(ranked, player) {
   ranked = removeDuplicates(ranked);
   let rankPos = [];
   player.forEach((score) => {
-    rankPos.push(getScoreIndex(score, ranked));
+    getScoreIndex(score, ranked, rankPos);
   });
 
   return rankPos;
 }
 
-function getScoreIndex(score, ranked) {
-  let newRanked = ranked;
+function getScoreIndex(score, ranked, rankPos) {
   if (ranked.indexOf(score) !== -1) {
-    return ranked.indexOf(score) + 1;
+    rankPos.push(ranked.indexOf(score) + 1);
   } else if (ranked[ranked.length - 1] > score) {
-    return ranked.length + 1;
+    rankPos.push(ranked.length + 1);
   } else if (ranked[0] < score) {
-    return 1;
+    rankPos.push(1);
   } else {
     let low = 0;
     let high = ranked.length;
-    let currentIndex = getNewIndex(low, high);
-    console.log("Call recursive search on: " + score);
-    return recursiveSearchForIndex(currentIndex, ranked, score, low, high);
+    let index = getAverage(low, high);
+    console.log("LOW: " + low + " HIGH: " + high + " INDEX: " + index);
+
+    rankPos.push(recursiveFunction(ranked, score, low, high, index));
   }
 }
 
-function recursiveSearchForIndex(currentIndex, ranked, score, low, high) {
-  if (high - low === 1) {
-    return 100;
-  }
-  if (ranked[currentIndex] > score) {
-    if (ranked[currentIndex + 1] < score) {
-      return currentIndex + 1;
-    } else {
-      return 100;
-    }
-  } else if (ranked[currentIndex] < score) {
-    if (ranked[currentIndex - 1] > score) {
-      return currentIndex;
-    } else {
-      low = currentIndex;
-      currentIndex = getNewIndex(low, high);
-      return 500;
+function recursiveFunction(array, number, low, high, index, rankPos) {
+  // console.log("LOW: " + low + " HIGH: " + high + " INDEX: " + index);
+
+  if (array[index] < number && array[index - 1] > number) {
+    // console.log("FOUND 1");
+    // console.log(index + 1);
+    return index + 1;
+  } else if (array[index] > number && array[index + 1] < number) {
+    // console.log("FOUND 2");
+    // console.log(index + 2);
+    return index + 2;
+  } else {
+    if (number < array[index]) {
+      low = index;
+      index = getAverage(low, high);
+      recursiveFunction(array, number, low, high, index);
+    } else if (number > array[index]) {
+      high = index;
+      index = getAverage(low, high);
+      recursiveFunction(array, number, low, high, index);
     }
   }
 }
 
-function getNewIndex(low, high) {
-  let num = high - low;
-  console.log("NUM: " + num);
-  console.log("NEWINDEX: " + Math.floor(num / 2));
-  return Math.floor(num / 2);
+function getAverage(low, high) {
+  return Math.floor((high - low) / 2) + low;
 }
 
 function removeDuplicates(data) {
