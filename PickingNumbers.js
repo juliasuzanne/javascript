@@ -9,7 +9,6 @@ function pickingNumbers(a) {
   for (let i = 0; i < a.length; i++) {
     if (numOccurences.get(a[i]) == null) {
       numOccurences.set(a[i], 1);
-      // console.log("add " + a[i] + "to list");
     }
     if (a[i] == a[i + 1]) {
       numOccurences.set(a[i], numOccurences.get(a[i]) + 1);
@@ -21,7 +20,6 @@ function pickingNumbers(a) {
 
   //populate array with unique numbers
   newArr = Array.from(numOccurences.keys());
-  console.log("NEW ARR: " + newArr);
 
   //create variable to store largest sums of consecutive numbers
   let record = 0;
@@ -29,28 +27,25 @@ function pickingNumbers(a) {
   //check which unique numbers have a difference of 1
   for (let i = 0; i < newArr.length - 1; i++) {
     let currentSum = numOccurences.get(newArr[i + 1]) + numOccurences.get(newArr[i]);
-    console.log("CURRENT SUM: " + currentSum);
     if (newArr[i + 1] - newArr[i] == 1) {
       if (record < currentSum) {
         record = currentSum;
       }
-      console.log("current record = " + record);
     }
   }
 
+  //new array to track occurances of each number
   let numArray = [];
 
   //populate array with unique numbers
   numArray = Array.from(numOccurences.values());
   numArray.sort((a, b) => b - a);
 
-  console.log("NEW ARR: " + newArr);
-
-  console.log("NUM ARRAY: " + numArray);
+  //check if an isolated number's occurences are larger than the record of grouped number occurences sum
   if (numArray[0] > record) {
     record = numArray[0];
   }
-  console.log("RECORD" + record);
+
   return record;
 }
 
