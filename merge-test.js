@@ -14,12 +14,12 @@ function getNewNode(value) {
   return { data: value, next: null };
 }
 
-function mergeLists(head1, head2) {
+function mergeLists(head1, head2, mergeNode = null) {
   let firstPointer = head1;
   let secondPointer = head2;
   let newhead = null;
   let newTail = newhead;
-  let newNode = null;
+  let newNode = mergeNode;
 
   while (firstPointer != null && secondPointer != null) {
     if (firstPointer.data == secondPointer.data) {
